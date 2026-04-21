@@ -1,114 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cactoys Wiki</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #0d0d0d;
-    color: #e0ffe0;
-    margin: 0;
-    display: flex;
-}
-
-#sidebar {
-    width: 260px;
-    background: #111;
-    height: 100vh;
-    overflow-y: auto;
-    border-right: 1px solid #222;
-    padding: 10px;
-}
-
-#search {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: none;
-}
-
-.item {
-    padding: 8px;
-    cursor: pointer;
-    border-radius: 6px;
-}
-
-.item:hover {
-    background: #00ff8822;
-}
-
-#content {
-    flex: 1;
-    padding: 20px;
-}
-
-h1 {
-    color: #00ff88;
-}
-
-.link {
-    color: #00ffaa;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="sidebar">
-    <input id="search" placeholder="Search...">
-    <div id="list"></div>
-</div>
-
-<div id="content">
-    <h1>🌵 Cactoys Wiki</h1>
-    <p>Select an article on the left.</p>
-</div>
-
 <script>
+let historyStack = [];
+
+// FUNÇÃO PRA EXPANDIR TEXTO AUTOMATICAMENTE
+function expand(desc, connections=[]){
+return `
+<p>${desc}</p>
+
+<p>
+This location plays a critical role in the structure of the Cactoys multiverse. 
+Reports suggest that its behavior is not stable, and its geometry may shift depending 
+on the observer. Several explorers have attempted to document it, but most records 
+end abruptly or become corrupted.
+</p>
+
+<p>
+Connections: ${connections.map(c=>`[${c}]`).join(", ")}
+</p>
+
+<p>
+Lore Notes:
+The environment emits subtle signals that interfere with perception. 
+Time inconsistencies, repeated sounds, and visual distortions are common.
+Some believe this place is part of a larger system connected to the [Void] 
+and controlled indirectly by hidden processes.
+</p>
+`;
+}
+
 const pages = {
-"Banbanzinho": {
-text: "Banbanzinho is the main explorer of Cactoys. He travels through portals and investigates mysteries. Related: [Portal], [Seekinho]"
-},
-"Seekinho": {
-text: "Seekinho is a looping entity that observes reality. It appears connected to [Void] and [Crossbuck]."
-},
-"Portal": {
-text: "Portals connect different worlds. Many lead to dangerous places like the [Void] or the [Cactoys Village]."
-},
-"Void": {
-text: "The Void is a dark dimension where reality breaks. Entities like [Seekinho] exist here."
-},
-"Cactoys Village": {
-text: "A planet entirely covered by a looping village. It contains the [Infinite Street]."
-},
-"Infinite Street": {
-text: "A street that appears infinite but loops around the entire planet."
-},
-"Crossbuck": {
-text: "A mysterious entity seen in cameras. It chases observers and may be linked to [Seekinho]."
-},
-"Cosmic Capybara": {
-text: "A giant capybara floating in space beyond normal reality."
-},
-"Agnes": {
-text: "A giant found inside a massive house beyond a portal. Connected to [Unicorn]."
-},
-"Unicorn": {
-text: "A magical toy connected to Agnes."
+
+// HOME
+"Home": {
+text: `
+<p>Welcome to the Cactoys Wiki.</p>
+
+<p>
+This archive documents locations, entities, and systems that exist across the multiverse.
+Each page contains unstable information. Navigation is not guaranteed to be consistent.
+</p>
+
+<p>
+Start exploring:
+🏭 [UKR] | 🌾 [Meadow Fields] | 🌑 [The Panoptic] | 🚀 [JADES Station]
+</p>
+`
 },
 
-// GERADOR PRA DEIXAR WIKI GIGANTE
+// INDUSTRIAL
+"UKR": {
+text: expand(
+"Universal Kristall Rubro is a massive industrial structure that acts as the technological heart of the multiverse.",
+["RCA Sector","OCOM Room","Voxel Labs"]
+)
+},
+
+"RCA Sector": {
+text: expand(
+"The Redstone Computer Architecture sector processes logic and controls systemic behavior of reality.",
+["UKR","OCOM Room"]
+)
+},
+
+"OCOM Room": {
+text: expand(
+"The Official Computer is the central command system that regulates world stability.",
+["UKR"]
+)
+},
+
+"Voxel Labs": {
+text: expand(
+Laboratories where physical matter is reconstructed into voxel-based structures.",
+["UKR"]
+)
+},
+
+// EXTERNAL
+"Meadow Fields": {
+text: expand(
+"Infinite plains covered in tall grass under a cloudy sky. Movement here feels unnatural.",
+["Crossbuck"]
+)
+},
+
+"Piraquara Shore": {
+text: expand(
+"A distorted reservoir edge where silence dominates and recordings often fail.",
+["Void"]
+)
+},
+
+"Abandoned Café": {
+text: expand(
+"A dreamcore location that appears welcoming but is permanently empty.",
+["Meadow Fields"]
+)
+},
+
+"Dead Rail Zones": {
+text: expand(
+Railways that lead nowhere, yet crossing signals activate without trains.",
+["Crossbuck"]
+)
+},
+
+// HORROR
+"The Panoptic": {
+text: expand(
+"A dimension where observation is constant and unavoidable.",
+["Void"]
+)
+},
+
+"Backdoors": {
+text: expand(
+Non-euclidean corridors where spatial rules do not apply.",
+["BlackWebb Void"]
+)
+},
+
+"BlackWebb Void": {
+text: expand(
+A digital darkness filled with green terminals storing ancient data.",
+["Seekinho"]
+)
+},
+
+"Physics Test Sector": {
+text: expand(
+A liminal testing zone where entities are evaluated before deployment.",
+["Void"]
+)
+},
+
+// SPACE
+"JADES Station": {
+text: expand(
+An observation post monitoring distant galaxies beyond normal reach.",
+["Starshot Corridor"]
+)
+},
+
+"Starshot Corridor": {
+text: expand(
+A high-speed route used to traverse the multiverse.",
+["JADES Station"]
+)
+},
+
+// LORE
+"Seekinho Hideout": {
+text: expand(
+A dark enclosed environment with ventilation systems and limited visibility.",
+["Seekinho"]
+)
+},
+
+"Badge Central": {
+text: expand(
+A secure vault storing achievements of multiverse survivors.",
+["UKR"]
+)
+},
+
+// ENTITIES
+"Crossbuck": {
+text: expand(
+A fast-moving entity often seen in recordings before signal loss.",
+["Meadow Fields","Dead Rail Zones"]
+)
+},
+
+"Seekinho": {
+text: expand(
+A looping entity that appears tied to corrupted systems.",
+["BlackWebb Void","Seekinho Hideout"]
+)
+},
+
+"Void": {
+text: expand(
+A space where reality collapses and logic ceases to function.",
+["Backdoors","The Panoptic"]
+)
+},
+
+// GERADOR GIGANTE
 ...Object.fromEntries(
-Array.from({length:200}, (_,i)=>[
+Array.from({length:300}, (_,i)=>[
 "Entity_"+i,
-{text:"Generated article about Entity_"+i+" connected to [Void] and [Portal]."}
+{
+text: expand(
+"Entity "+i+" is an unstable presence detected in multiple regions.",
+["Void","Backdoors"]
+)
+}
 ])
 )
 };
@@ -116,36 +202,56 @@ Array.from({length:200}, (_,i)=>[
 const listDiv = document.getElementById("list");
 const contentDiv = document.getElementById("content");
 
+// LIST
 function renderList(filter=""){
 listDiv.innerHTML="";
 Object.keys(pages)
-.filter(name=>name.toLowerCase().includes(filter.toLowerCase()))
-.forEach(name=>{
-    const div=document.createElement("div");
-    div.className="item";
-    div.textContent=name;
-    div.onclick=()=>openPage(name);
-    listDiv.appendChild(div);
+.filter(n=>n.toLowerCase().includes(filter.toLowerCase()))
+.forEach(n=>{
+let d=document.createElement("div");
+d.className="item";
+d.textContent=n;
+d.onclick=()=>openPage(n);
+listDiv.appendChild(d);
 });
 }
 
+// OPEN
 function openPage(name){
+if(!pages[name]){
+contentDiv.innerHTML=`<h1>${name}</h1><p>Page not found.</p>`;
+return;
+}
+
+historyStack.push(name);
+
 let text = pages[name].text;
 
-// transformar [links] em clicáveis
-text = text.replace(/\[(.*?)\]/g, (match,p1)=>{
-    return `<span class="link" onclick="openPage('${p1}')">${p1}</span>`;
+text = text.replace(/\[(.*?)\]/g,(m,p)=>{
+if(!pages[p]) return `<span style="color:red">${p}</span>`;
+return `<span class="link" onclick="openPage('${p}')">${p}</span>`;
 });
 
-contentDiv.innerHTML = `<h1>${name}</h1><p>${text}</p>`;
+contentDiv.innerHTML = `
+<button onclick="goBack()">⬅ Back</button>
+<h1>${name}</h1>
+${text}
+`;
 }
 
+// BACK
+function goBack(){
+historyStack.pop();
+let prev = historyStack.pop();
+if(prev) openPage(prev);
+}
+
+// SEARCH
 document.getElementById("search").addEventListener("input", e=>{
 renderList(e.target.value);
 });
 
+// INIT
 renderList();
+openPage("Home");
 </script>
-
-</body>
-</html>
