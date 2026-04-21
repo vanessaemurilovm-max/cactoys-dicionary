@@ -1,194 +1,150 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cactoys Supreme Dictionary</title>
-    <style>
-        :root {
-            --primary: #00ff88;
-            --bg: #0d0d0d;
-            --card-bg: #161616;
-            --text: #e0ffe0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cactoys Wiki</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            line-height: 1.6;
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0d0d0d;
+    color: #e0ffe0;
+    margin: 0;
+    display: flex;
+}
 
-        header {
-            background: linear-gradient(180deg, #001a0d 0%, var(--bg) 100%);
-            border-bottom: 2px solid var(--primary);
-            padding: 40px 20px;
-            text-align: center;
-            font-size: 32px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 10px var(--primary);
-        }
+#sidebar {
+    width: 260px;
+    background: #111;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #222;
+    padding: 10px;
+}
 
-        .search-container {
-            position: sticky;
-            top: 0;
-            background: var(--bg);
-            padding: 20px;
-            z-index: 100;
-        }
+#search {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: none;
+}
 
-        #searchBox {
-            width: 90%;
-            max-width: 800px;
-            padding: 15px;
-            margin: 0 auto;
-            display: block;
-            font-size: 18px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: var(--primary);
-            border-radius: 4px;
-            outline: none;
-            transition: 0.3s;
-        }
+.item {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+}
 
-        #searchBox:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
-        }
+.item:hover {
+    background: #00ff8822;
+}
 
-        #dictionary {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
+#content {
+    flex: 1;
+    padding: 20px;
+}
 
-        .word {
-            margin-bottom: 15px;
-            padding: 20px;
-            background: var(--card-bg);
-            border-left: 4px solid #333;
-            border-radius: 0 8px 8px 0;
-            transition: 0.2s;
-        }
+h1 {
+    color: #00ff88;
+}
 
-        .word:hover {
-            border-left-color: var(--primary);
-            background: #1d1d1d;
-            transform: translateX(5px);
-        }
+.link {
+    color: #00ffaa;
+    cursor: pointer;
+    text-decoration: underline;
+}
 
-        .word strong {
-            color: var(--primary);
-            font-size: 1.2em;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .tag {
-            font-size: 10px;
-            background: #333;
-            padding: 2px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        .highlight {
-            background: rgba(0, 255, 136, 0.3);
-            color: white;
-        }
-
-        .stats {
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-    </style>
+</style>
 </head>
+
 <body>
 
-<header>🌵 Cactoys Supreme Dictionary ☥</header>
-
-<div class="search-container">
-    <input type="text" id="searchBox" placeholder="Acessar banco de dados..." autocomplete="off">
+<div id="sidebar">
+    <input id="search" placeholder="Search...">
+    <div id="list"></div>
 </div>
 
-<div class="stats" id="counter">Carregando arquivos...</div>
-
-<div id="dictionary"></div>
+<div id="content">
+    <h1>🌵 Cactoys Wiki</h1>
+    <p>Select an article on the left.</p>
+</div>
 
 <script>
-// Base de dados expandida com tipos
-const words = [
-    {title: "Agnes", type: "Entidade", desc: "Uma gigante descoberta após cruzar um portal."},
-    {title: "Anti-Void", type: "Dimensão", desc: "Dimensão oposta ao Void. Silêncio absoluto."},
-    {title: "Banbanzinho", type: "Explorador", desc: "O principal explorador do multiverso Cactoys."},
-    {title: "Crossbuck", type: "Entidade", desc: "Entidade ferroviária que persegue alvos a 45 studs/s."},
-    {title: "EMC2 Database", type: "Arquivo", desc: "Arquivo secreto de conhecimento universal."},
-    {title: "OCOM", type: "Sistema", desc: "Official Computer of Mine. O núcleo técnico."},
-    {title: "Seekinho", type: "Entidade", desc: "Observador que manifesta anomalias em loop."},
-    {title: "UKR", type: "Local", desc: "Universal Kristall Rubro. Instalação industrial de processamento."},
-    {title: "Void", type: "Dimensão", desc: "Dimensão quebrada e escura onde a realidade falha."},
-    // ... Adicione os outros aqui mantendo o padrão {title, type, desc}
-];
+const pages = {
+"Banbanzinho": {
+text: "Banbanzinho is the main explorer of Cactoys. He travels through portals and investigates mysteries. Related: [Portal], [Seekinho]"
+},
+"Seekinho": {
+text: "Seekinho is a looping entity that observes reality. It appears connected to [Void] and [Crossbuck]."
+},
+"Portal": {
+text: "Portals connect different worlds. Many lead to dangerous places like the [Void] or the [Cactoys Village]."
+},
+"Void": {
+text: "The Void is a dark dimension where reality breaks. Entities like [Seekinho] exist here."
+},
+"Cactoys Village": {
+text: "A planet entirely covered by a looping village. It contains the [Infinite Street]."
+},
+"Infinite Street": {
+text: "A street that appears infinite but loops around the entire planet."
+},
+"Crossbuck": {
+text: "A mysterious entity seen in cameras. It chases observers and may be linked to [Seekinho]."
+},
+"Cosmic Capybara": {
+text: "A giant capybara floating in space beyond normal reality."
+},
+"Agnes": {
+text: "A giant found inside a massive house beyond a portal. Connected to [Unicorn]."
+},
+"Unicorn": {
+text: "A magical toy connected to Agnes."
+},
 
-const container = document.getElementById("dictionary");
-const counter = document.getElementById("counter");
+// GERADOR PRA DEIXAR WIKI GIGANTE
+...Object.fromEntries(
+Array.from({length:200}, (_,i)=>[
+"Entity_"+i,
+{text:"Generated article about Entity_"+i+" connected to [Void] and [Portal]."}
+])
+)
+};
 
-function render(list, term = ""){
-    container.innerHTML = "";
-    counter.innerText = `${list.length} registros encontrados`;
+const listDiv = document.getElementById("list");
+const contentDiv = document.getElementById("content");
 
-    list.forEach(w => {
-        const div = document.createElement("div");
-        div.className = "word";
-        
-        let title = w.title;
-        let desc = w.desc;
-
-        // Efeito de destaque na busca
-        if(term) {
-            const reg = new RegExp(`(${term})`, "gi");
-            title = title.replace(reg, "<span class='highlight'>$1</span>");
-            desc = desc.replace(reg, "<span class='highlight'>$1</span>");
-        }
-
-        div.innerHTML = `
-            <span class="tag">${w.type || 'Registro'}</span>
-            <strong>${title}</strong>
-            <span>${desc}</span>
-        `;
-        container.appendChild(div);
-    });
+function renderList(filter=""){
+listDiv.innerHTML="";
+Object.keys(pages)
+.filter(name=>name.toLowerCase().includes(filter.toLowerCase()))
+.forEach(name=>{
+    const div=document.createElement("div");
+    div.className="item";
+    div.textContent=name;
+    div.onclick=()=>openPage(name);
+    listDiv.appendChild(div);
+});
 }
 
-// Inicialização
-render(words);
+function openPage(name){
+let text = pages[name].text;
 
-// Logica de busca
-document.getElementById("searchBox").addEventListener("input", function(){
-    const term = this.value.toLowerCase();
-    const filtered = words.filter(w =>
-        w.title.toLowerCase().includes(term) ||
-        w.desc.toLowerCase().includes(term) ||
-        (w.type && w.type.toLowerCase().includes(term))
-    );
-    render(filtered, term);
+// transformar [links] em clicáveis
+text = text.replace(/\[(.*?)\]/g, (match,p1)=>{
+    return `<span class="link" onclick="openPage('${p1}')">${p1}</span>`;
 });
 
-// Suporte a busca via URL (ex: ?q=Crossbuck)
-const urlParams = new URLSearchParams(window.location.search);
-if(urlParams.has('q')) {
-    const q = urlParams.get('q');
-    document.getElementById("searchBox").value = q;
-    const filtered = words.filter(w => w.title.toLowerCase().includes(q.toLowerCase()));
-    render(filtered, q);
+contentDiv.innerHTML = `<h1>${name}</h1><p>${text}</p>`;
 }
+
+document.getElementById("search").addEventListener("input", e=>{
+renderList(e.target.value);
+});
+
+renderList();
 </script>
 
 </body>
